@@ -1,12 +1,12 @@
-FROM nginx:stable
+FROM node:18
 
 COPY . /usr/local/app/
 
 WORKDIR /usr/local/app
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN apt install ngnix
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x && apt install -y nodejs
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN npm install
 
