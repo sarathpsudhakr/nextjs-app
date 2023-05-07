@@ -6,13 +6,11 @@ WORKDIR /usr/local/app
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN apt update && apt install nodejs npm -y
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\ && apt-get install -y nodejs
 
 RUN npm install
 
-RUN nohup npm run dev
-
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev"]
 
