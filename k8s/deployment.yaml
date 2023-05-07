@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-deployment
+  name: nextjs-deployment
   labels:
-    app: demo-app
+    app: nextjs-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo-app
+      app: nextjs-app
   template:
     metadata:
       labels:
-        app: demo-app
+        app: nextjs-app
     spec:
       containers:
-      - name: demo
-        image: ghcr.io/sarathpsudhakr/demo-app1:main
+      - name: nextjs
+        image: ghcr.io/sarathpsudhakr/nextjs-app:main
         imagePullPolicy: "Always"
         ports:
         - containerPort: 3000
@@ -24,10 +24,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-service
+  name: nextjs-service
 spec:
   selector:
-    app: demo-app
+    app: nextjs-app
   type: LoadBalancer
   ports:
     - protocol: TCP

@@ -1,0 +1,92 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-without-markdown
+        path: .next
+        
+  package:
+      runs-on: ubuntu-latest
+      needs: build
+      
+      steps:
+        - uses: actions/checkout@v3
+        - name: Download a Build Artifact
+          uses: actions/download-artifact@v2.1.1
+          with:
+            # Artifact name
+            name: dist-without-markdown
+            # Destination path
+            path: .next
+            
+        - name: Login to GitHub Container Registry
+          uses: docker/login-action@v2
+          with:
+            registry: ghcr.io/sarathpsudhakr/nextjs-app
+            username: ${{ secrets.REGISTRY_USER }}
+            password: ${{ secrets.REGISTRY_TOKEN }}
+
+        - name: Extract metadata (tags, labels) for Docker
+          id: meta
+          uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+          with:
+            images: ghcr.io/sarathpsudhakr/nextjs-app
+
+        - name: Build and push Docker image
+          uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+          with:
+            context: .
+            push: true
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: ${{ steps.meta.outputs.labels }}
+#   deploy:
+#       runs-on: ubuntu-latest
+#       needs: package
+#       name: Deploy to minikube
+#       steps:
+#       - uses: actions/checkout@v2
+#       - name: Start minikube
+#         uses: medyagh/setup-minikube@master
+#       - name: CLuster Check
+#         run: kubectl get pods     
+#       - name: Deploy app to minikube
+#         run: |
+#           cd k8s
+#           kubectl apply -f deployment.yaml
+#           kubectl get all
+#       - name: Url Check
+#         run: |
+#           minikube service list
+#           curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok
+#           ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+#           ngrok http 192.168.49.2:30000
+          

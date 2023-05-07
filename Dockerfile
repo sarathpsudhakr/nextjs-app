@@ -4,11 +4,13 @@ COPY . /usr/local/app/
 
 WORKDIR /usr/local/app
 
-RUN rm -rf /etc/nginx/conf.d/*
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY  ./.next /usr/share/nginx/html
+RUN apt update && apt install nodejs
+
+RUN npm install
+
+RUN nohup npm run dev
 
 EXPOSE 3000
 
