@@ -1,10 +1,10 @@
-FROM node:18
+FROM node:18-alpine
 
 COPY . /usr/local/app/
 
 WORKDIR /usr/local/app
 
-RUN apt update && apt upgrade && apt install ngnix
+RUN apk update && apk add ngnix
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
