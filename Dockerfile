@@ -1,17 +1,26 @@
-FROM node:18-alpine
+# Stage 1: Build Next.js application
+FROM node:18-alpine as build
 
 COPY . /usr/local/app/
 
 WORKDIR /usr/local/app
 
-RUN apk update && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ nginx
+RUN npm run build
 
+# Stage 2: Run Next.js application with NGINX
+FROM nginx:1.21-alpine
+
+# Copy NGINX configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN npm install
+# Remove default NGINX static content
+RUN rm -rf /usr/share/nginx/html/*
 
-RUN nohup npm run dev &
+# Copy Next.js build output to NGINX
+COPY --from=build /.next /usr/share/nginx/html
 
-EXPOSE 3000
+# Expose port
+EXPOSE 80 3000
 
-CMD ["ngnix", "-g", "daemon off"]
+# Start Next.js application and NGINX
+CMD ["sh", "-c", "cd /usr/local/app && npm run dev & nginx -g 'daemon off;'"]
