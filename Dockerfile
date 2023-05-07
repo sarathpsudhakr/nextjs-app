@@ -19,7 +19,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy Next.js build output to NGINX
-COPY --from=build /.next /usr/share/nginx/html
+COPY --from=build ./.next /usr/share/nginx/html
 
 # Expose port
 EXPOSE 80 3000
