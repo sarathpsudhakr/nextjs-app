@@ -6,7 +6,7 @@ WORKDIR /usr/local/app
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN apt update && apt install nodejs
+RUN apt update && apt install nodejs npm -y
 
 RUN npm install
 
