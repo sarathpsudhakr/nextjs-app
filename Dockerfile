@@ -5,6 +5,8 @@ COPY . /usr/local/app/
 
 WORKDIR /usr/local/app
 
+RUN npm install
+
 RUN npm run build
 
 # Stage 2: Run Next.js application with NGINX
