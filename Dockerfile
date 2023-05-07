@@ -10,7 +10,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN npm install
 
-RUN nohup npm run dev
+RUN nohup npm run dev &
 
 EXPOSE 3000
 
