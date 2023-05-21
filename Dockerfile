@@ -8,7 +8,7 @@ COPY . /usr/local/app/
 WORKDIR /usr/local/app
 
 # Install vim editor, top, iftop
-RUN apt-get update && apt-get install -y vim procps iftop
+RUN apk update && apk add vim procps iftop
 
 # Install npm dependencies
 RUN npm install
