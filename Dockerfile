@@ -1,3 +1,4 @@
+# Pull NGINX stable image from Docker hub
 FROM node:18-alpine
 
 # Create the folder and copy application files to the folder
@@ -6,14 +7,14 @@ COPY . /usr/local/app/
 # Define the working directory
 WORKDIR /usr/local/app
 
-RUN apk update && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ nginx
+# Install vim editor, top, iftop
+RUN apt-get update && apt-get install -y vim procps iftop
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# Install npm dependencies
 RUN npm install
 
-RUN nohup npm run dev &
-
+# Expose port
 EXPOSE 3000
 
-CMD ["ngnix", "-g", "daemon off"]
+# Start Nextjs application
+CMD ["npm", "run", "dev"]
