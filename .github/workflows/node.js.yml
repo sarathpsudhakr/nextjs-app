@@ -26,10 +26,9 @@ jobs:
 
       - name: Display Custom Variables
         run: |
-          echo "Custom Variables:"
+          echo "Workflow Variables:"
           for var in ${{ toJson(github.workflow.inputs) }}; do
-            value=$(jq -r ."$var" <<< ${{ toJson(github.workflow.outputs) }})
-            echo "$var: $value"
+            echo "$var: ${{ github.workflow.inputs[$var] }}"
           done
 
       - name: Render template , Create YAML file and Display YAML file
