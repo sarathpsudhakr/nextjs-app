@@ -9,13 +9,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  CV_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
+
 jobs:
   pre-build:
 
     runs-on: ubuntu-latest
-
-    env:
-      CV_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
 
     steps:
       - name: Checkout repository
@@ -26,8 +26,10 @@ jobs:
 
       - name: Display Custom Variables
         run: |
-          echo "Workflow Variables:"
-          echo ${{ toJson(github.workflow.inputs) }}
+          echo "Looping through Environment Variables:"
+          for var in $(env | awk -F= '{print $1}'); do
+            echo "$var: ${!var}"
+          done
 
       - name: Render template , Create YAML file and Display YAML file
         run: |
