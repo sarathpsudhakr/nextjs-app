@@ -24,15 +24,10 @@ jobs:
       - name: Install Jinja2
         run: pip install jinja2-cli
 
-      - name: Render template and create YAML file
+      - name: Render template , Create YAML file and Display YAML file
         run: |
           cd k8s
           jinja2 deployment2.yaml.j2 -D CV_GITHUB_REGISTRY=$CV_GITHUB_REGISTRY --format=yaml --strict > deployment2.yaml
-          ls
-
-      - name: Display YAML content
-        run: |
-          ls
           cat deployment2.yaml
 
   build:
