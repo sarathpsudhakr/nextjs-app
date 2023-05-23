@@ -31,7 +31,9 @@ jobs:
           ls
 
       - name: Display YAML content
-        run: cat deployment2.yaml
+        run: |
+          ls
+          cat deployment2.yaml
 
   build:
 
