@@ -24,6 +24,14 @@ jobs:
       - name: Install Jinja2
         run: pip install jinja2-cli
 
+      - name: Display Custom Variables
+        run: |
+          echo "Custom Variables:"
+          for var in ${{ toJson(github.workflow.inputs) }}; do
+            value=$(jq -r ."$var" <<< ${{ toJson(github.workflow.outputs) }})
+            echo "$var: $value"
+          done
+
       - name: Render template , Create YAML file and Display YAML file
         run: |
           cd k8s
