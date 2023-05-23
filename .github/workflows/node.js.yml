@@ -36,10 +36,10 @@ jobs:
           cd k8s
           echo "Looping through Custom Environment Variables:"
           for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
-            echo "$var: ${!var}"
+            $var=${!var}
           done
 
-          j2 deployment2.yaml.j2 -o deployment2.yaml --format=yaml 
+          jinja2 deployment2.yaml.j2 --format=yaml --strict > deployment2.yaml
           cat deployment2.yaml
 
   build:
