@@ -10,6 +10,27 @@ on:
     branches: [ "main" ]
 
 jobs:
+  pre-build:
+    runs-on: ubuntu-latest
+
+    env:
+      CUSTOM_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Jinja2
+        run: pip install jinja2-cli
+
+      - name: Render template and create YAML file
+        run: |
+          cd k8s
+          jinja2 deployment2.yaml.j2 -D github.repository=$CUSTOM_GITHUB_REGISTRY --format=yaml --strict > deployment2.yaml
+
+      - name: Display YAML content
+        run: cat deployment2.yaml
+
   build:
 
     runs-on: ubuntu-latest
