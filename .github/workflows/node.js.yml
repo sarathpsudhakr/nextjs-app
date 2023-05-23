@@ -26,7 +26,7 @@ jobs:
 
       - name: Display Custom Variables
         run: |
-          echo "Looping through Environment Variables:"
+          echo "Looping through Custom Environment Variables:"
           for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
             echo "$var: ${!var}"
           done
@@ -34,7 +34,12 @@ jobs:
       - name: Render template , Create YAML file and Display YAML file
         run: |
           cd k8s
-          jinja2 deployment2.yaml.j2 -D CV_GITHUB_REGISTRY=$CV_GITHUB_REGISTRY --format=yaml --strict > deployment2.yaml
+          echo "Looping through Custom Environment Variables:"
+          for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
+            echo "$var: ${!var}"
+          done
+
+          jinja2 deployment2.yaml.j2 --format=yaml --strict > deployment2.yaml
           cat deployment2.yaml
 
   build:
