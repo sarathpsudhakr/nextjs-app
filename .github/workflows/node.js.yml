@@ -27,7 +27,8 @@ jobs:
       - name: Render template and create YAML file
         run: |
           cd k8s
-          jinja2 deployment2.yaml.j2 -D CUSTOM_GITHUB_REGISTRY=$CUSTOM_GITHUB_REGISTRY --format=yaml --strict > deployment2.yaml
+          jinja2 deployment2.yaml.j2 -D CV_GITHUB_REGISTRY=$CV_GITHUB_REGISTRY --format=yaml --strict > deployment2.yaml
+          ls
 
       - name: Display YAML content
         run: cat deployment2.yaml
