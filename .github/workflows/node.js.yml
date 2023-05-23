@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      CUSTOM_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
+      CV_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
 
     steps:
       - name: Checkout repository
