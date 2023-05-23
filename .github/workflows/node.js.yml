@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "Workflow Variables:"
           for var in ${{ toJson(github.workflow.inputs) }}; do
-            echo "$var: ${{ github.workflow.inputs[$var] }}"
+            echo ${{ github.workflow.inputs[$var] }}
           done
 
       - name: Render template , Create YAML file and Display YAML file
