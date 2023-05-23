@@ -39,7 +39,7 @@ jobs:
             echo "$var: ${!var}"
           done
 
-          jinja2 deployment2.yaml.j2 --format=yaml --strict > deployment2.yaml
+          j2 deployment2.yaml.j2 -o deployment2.yaml --format=yaml 
           cat deployment2.yaml
 
   build:
