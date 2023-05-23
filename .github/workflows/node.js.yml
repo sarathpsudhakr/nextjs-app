@@ -27,7 +27,7 @@ jobs:
       - name: Display Custom Variables
         run: |
           echo "Looping through Environment Variables:"
-          for var in $(env | awk -F= '{print $1}' | grep '^CV_')); do
+          for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
             echo "$var: ${!var}"
           done
 
