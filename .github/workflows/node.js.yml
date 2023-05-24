@@ -33,10 +33,9 @@ jobs:
           for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
             echo $var
             echo ${!var}
-            
+            jinja2 deployment2.yaml.j2 -D $var=${!var} --format=yaml --strict > deployment2.yaml
+            cat deployment2.yaml
           done
-          jinja2 deployment2.yaml.j2 -D $var=${!var} --format=yaml --strict > deployment2.yaml
-          cat deployment2.yaml
 
   build:
 
