@@ -35,7 +35,7 @@ jobs:
           done
 
           jinja2 deployment.yaml.j2 $variables --format=yaml --strict > deployment.yaml
-          jinja2 deployment.yaml.j2 $variables --format=yaml --strict > configmap.yaml
+          jinja2 configmap.yaml.j2 $variables --format=yaml --strict > configmap.yaml
 
           echo "Kubernetes Configmap Yaml"
           cat configmap.yaml
