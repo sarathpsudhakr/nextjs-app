@@ -24,18 +24,13 @@ jobs:
       - name: Install Jinja2
         run: pip install jinja2-cli
 
-      - name: Display Custom Variables
-        run: |
-          echo "Looping through Custom Environment Variables:"
-          for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
-            echo "$var: ${!var}"
-          done
-
       - name: Render template , Create YAML file and Display YAML file
         run: |
           cd k8s
           echo "Looping through Custom Environment Variables:"
           for var in $(env | awk -F= '{print $1}' | grep '^CV_'); do
+            echo $var
+            echo ${!var}
             jinja2 deployment2.yaml.j2 -D $var=${!var} --format=yaml --strict > deployment2.yaml
           done
 
