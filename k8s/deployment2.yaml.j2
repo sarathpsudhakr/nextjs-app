@@ -7,11 +7,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ CV_NGINX_APP_NAME }}
+      app: 
   template:
     metadata:
       labels:
-        app: {{ CV_NGINX_APP_NAME }}
+        app: 
     spec:
       containers:
         - name: nginx
@@ -33,7 +33,7 @@ metadata:
   name: nginx-service
 spec:
   selector:
-    app: {{ CV_NGINX_APP_NAME }}
+    app: 
   type: LoadBalancer
   ports:
     - protocol: TCP
