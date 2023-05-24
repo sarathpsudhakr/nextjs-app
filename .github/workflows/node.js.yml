@@ -11,6 +11,8 @@ on:
 
 env:
   CV_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
+  CV_NGINX_APP_NAME: "nginx"
+  CV_NEXTJS_APP_NAME: "nextjs-app"
 
 jobs:
   pre-build:
@@ -33,7 +35,7 @@ jobs:
             echo ${!var}
             jinja2 deployment2.yaml.j2 -D $var=${!var} --format=yaml --strict > deployment2.yaml
           done
-          
+
           cat deployment2.yaml
 
   build:
