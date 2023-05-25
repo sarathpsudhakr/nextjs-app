@@ -99,7 +99,9 @@ jobs:
           with:
             context: .
             push: true
-            tags: ${{ steps.meta.outputs.tags }}
+            tags: |
+              # minimal (short sha)
+              type=sha
             labels: ${{ steps.meta.outputs.labels }}
             
   deploy:
