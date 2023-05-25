@@ -42,6 +42,8 @@ jobs:
           echo "Kubernetes Deployment Yaml"
           cat deployment.yaml
 
+          echo $GITHUB_SHA
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
