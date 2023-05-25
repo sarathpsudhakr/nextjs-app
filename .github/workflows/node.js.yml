@@ -100,7 +100,6 @@ jobs:
             context: .
             push: true
             tags: |
-              # minimal (short sha)
               type=sha
             labels: ${{ steps.meta.outputs.labels }}
             
