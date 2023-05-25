@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
       - name: nextjs
-        image: {{ CV_GITHUB_REGISTRY_URL }}
+        image: {{ CV_GITHUB_REGISTRY_URL }}:{{ CV_GITHUB_REGISTRY_IMAGE }}
         imagePullPolicy: "Always"
         ports:
         - containerPort: 3000

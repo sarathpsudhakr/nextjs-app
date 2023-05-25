@@ -11,6 +11,7 @@ on:
 
 env:
   CV_GITHUB_REGISTRY_URL: "ghcr.io/sarathpsudhakr/nextjs-app"
+  CV_GITHUB_REGISTRY_IMAGE: ${{ github.sha }}
   CV_NGINX_APP_NAME: "nginx"
   CV_NEXTJS_APP_NAME: "nextjs-app"
 
