@@ -100,7 +100,7 @@ jobs:
             context: .
             push: true
             tags: |
-              type=sha
+              type=sha, value=$GITHUB_SHA
             labels: ${{ steps.meta.outputs.labels }}
             
   deploy:
