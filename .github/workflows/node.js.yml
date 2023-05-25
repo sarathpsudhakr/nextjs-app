@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  CV_GITHUB_REGISTRY: "ghcr.io/sarathpsudhakr/nextjs-app:main"
+  CV_GITHUB_REGISTRY_URL: "ghcr.io/sarathpsudhakr/nextjs-app"
   CV_NGINX_APP_NAME: "nginx"
   CV_NEXTJS_APP_NAME: "nextjs-app"
 
@@ -84,7 +84,7 @@ jobs:
         - name: Login to GitHub Container Registry
           uses: docker/login-action@v2
           with:
-            registry: ghcr.io/sarathpsudhakr/nextjs-app
+            registry: $CV_GITHUB_REGISTRY_URL
             username: ${{ secrets.REGISTRY_USER }}
             password: ${{ secrets.REGISTRY_TOKEN }}
 
@@ -92,15 +92,14 @@ jobs:
           id: meta
           uses: docker/metadata-action@v4
           with:
-            images: ghcr.io/sarathpsudhakr/nextjs-app
+            images: $CV_GITHUB_REGISTRY_URL
 
         - name: Build and push Docker image
           uses: docker/build-push-action@v4
           with:
             context: .
             push: true
-            tags: |
-              type=sha, value=$GITHUB_SHA
+            tags: $CV_GITHUB_REGISTRY_URL:$GITHUB_SHA
             labels: ${{ steps.meta.outputs.labels }}
             
   deploy:
